@@ -113,23 +113,26 @@ void Roster::printAverageDaysInCourse(string studentID) {
 
 void Roster::remove(string studentID) {
 	cout << "Removing " << studentID << ":... ";
-	bool success = false;
-	for (int i = 0; i <= Roster::lastIndex; i++) {
+	bool studentFound = false;
+	for (int i = 0; i < Roster::lastIndex; i++) {
 		if (classRosterArray[i]->getStudentID() == studentID) {
-			success = true;
-			if (i < rosterSize - 1) {
-				Student* temp = classRosterArray[i];
-				classRosterArray[i] = classRosterArray[rosterSize - 1];
-				classRosterArray[rosterSize - 1] = temp;
+			studentFound = true;
+			if (studentFound == true) {
+				if (i < rosterSize - 1) {
+					for (i; i < rosterSize - 1; ++i) {
+						classRosterArray[i] = classRosterArray[i + 1];
+					}
+					classRosterArray[rosterSize - 1] = nullptr;
+				}
 			}
 			Roster::lastIndex--;
 		}
 	}
-	if (success) {
-		cout << studentID << " successfully removed from roster." << endl << endl;
-	}
-	else {
+	if (studentFound == false) {
 		cout << "The student with the ID: " << studentID << " was not found." << endl << endl;
+	}
+	else if (studentFound == true) {
+		cout << studentID << " successfully removed from roster." << endl << endl;
 	}
 }
 
